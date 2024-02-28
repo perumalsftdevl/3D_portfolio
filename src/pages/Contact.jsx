@@ -41,6 +41,7 @@ const Contact = () => {
       .then(
         () => {
           setLoading(false);
+          showAlert(true);
           showAlert({
             show: true,
             text: "Thank you for your message 😃",
