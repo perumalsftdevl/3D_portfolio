@@ -26,6 +26,15 @@ const Navbar = () => {
         >
           Projects
         </NavLink>
+        <NavLink
+          onClick={() =>
+            window.open(
+              "https://firebasestorage.googleapis.com/v0/b/portfolio-c84b8.appspot.com/o/Final_Resume.pdf?alt=media&token=0457f7c3-ab08-4233-9da5-4911b5009b83"
+            )
+          }
+        >
+          Download CV
+        </NavLink>
       </nav>
     </header>
   );
