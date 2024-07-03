@@ -249,7 +249,7 @@ export const projects = [
     theme: "btn-red",
     name: "E-Commerce",
     description:
-      "Developed a web application for product listings category wise, facilitating project searches and  buy product",
+      "Developed a web application for product listings category wise, facilitating product searches and  buy product",
     link: "https://perumalsftdevls-e-commerce-front-end.vercel.app/",
   },
 ];
