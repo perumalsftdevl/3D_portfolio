@@ -20,56 +20,117 @@ const Contact = () => {
   const handleFocus = () => setCurrentAnimation("walk");
   const handleBlur = () => setCurrentAnimation("idle");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setCurrentAnimation("hit");
 
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: "Perumal",
-          from_email: form.email,
-          to_email: "perumalkce2022@gmail.com",
-          message: form.message,
-        },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          showAlert(true);
-          showAlert({
-            show: true,
-            text: "Thank you for your message 😃",
-            type: "success",
-          });
+    // emailjs
+    //   .send(
+    //     import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+    //     import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+    //     {
+    //       from_name: form.name,
+    //       to_name: "Perumal",
+    //       from_email: form.email,
+    //       to_email: "perumalkce2022@gmail.com",
+    //       message: form.message,
+    //     },
+    //     import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+    //   )
+    //   .then(
+    //     () => {
+    //       setLoading(false);
+    //       showAlert({
+    //         show: true,
+    //         text: "Thank you for your message 😃",
+    //         type: "success",
+    //       });
 
-          setTimeout(() => {
-            hideAlert(false);
-            setCurrentAnimation("idle");
-            setForm({
-              name: "",
-              email: "",
-              message: "",
-            });
-          }, [3000]);
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
+    //       setTimeout(() => {
+    //         hideAlert(false);
+    //         setCurrentAnimation("idle");
+    //         setForm({
+    //           name: "",
+    //           email: "",
+    //           message: "",
+    //         });
+    //       }, [3000]);
+    //     },
+    //     (error) => {
+    //       setLoading(false);
+    //       console.error(error);
+    //       setCurrentAnimation("idle");
+
+    //       showAlert({
+    //         show: true,
+    //         text: "I didn't receive your message 😢",
+    //         type: "danger",
+    //       });
+    //     }
+    //   );
+
+    const JSONdata = JSON.stringify({
+      email: form.email,
+      subject: form.subject,
+      message: form.message,
+    });
+    const endpoint = "https://emailapi-qmey.onrender.com/api/send";
+    // const endpoint = "http://localhost:3000/api/send";
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: "POST",
+      // Tell the server we're sending JSON.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSONdata,
+    };
+
+    try {
+      const response = await fetch(endpoint, options);
+      if (response.status === 200) {
+        setLoading(false);
+        showAlert({
+          show: true,
+          text: "Thank you for your message 😃",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          hideAlert(false);
           setCurrentAnimation("idle");
-
-          showAlert({
-            show: true,
-            text: "I didn't receive your message 😢",
-            type: "danger",
+          setForm({
+            subject: "",
+            email: "",
+            message: "",
           });
-        }
-      );
+        }, [3000]);
+      } else {
+        setLoading(false);
+        console.error(error);
+        setCurrentAnimation("idle");
+
+        showAlert({
+          show: true,
+          text: "I didn't receive your message 😢",
+          type: "danger",
+        });
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+      setCurrentAnimation("idle");
+
+      showAlert({
+        show: true,
+        text: "I didn't receive your message 😢",
+        type: "danger",
+      });
+    }
   };
 
   return (
@@ -85,14 +146,14 @@ const Contact = () => {
           className="w-full flex flex-col gap-7 mt-14"
         >
           <label className="text-black-500 font-semibold">
-            Name
+            Subject
             <input
               type="text"
-              name="name"
+              name="subject"
               className="input"
-              placeholder="John"
+              placeholder="Write your subject here"
               required
-              value={form.name}
+              value={form.subject}
               onChange={handleChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
