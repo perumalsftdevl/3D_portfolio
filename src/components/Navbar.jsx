@@ -29,7 +29,7 @@ const Navbar = () => {
         <NavLink
           onClick={() =>
             window.open(
-              "https://firebasestorage.googleapis.com/v0/b/portfolio-c84b8.appspot.com/o/PerumalPResume-cropped.pdf?alt=media&token=3c8d9e4d-43d1-4345-830e-e68454fb3db9"
+              "https://firebasestorage.googleapis.com/v0/b/portfolio-c84b8.appspot.com/o/PerumalPResume-FullStack.pdf?alt=media&token=f4f58e30-b4c0-4131-8d60-dda691d1a49b"
             )
           }
         >
